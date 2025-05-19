@@ -5,7 +5,7 @@ import shutil
 from torch.utils.tensorboard import SummaryWriter
 
 class SVSRNN(nn.Module):
-    def __init__(self, num_features, num_rnn_layer=4, num_hidden_units=[256, 256, 256], tensorboard_directory='graphs/svsrnn', clear_tensorboard=True):
+    def __init__(self, num_features, num_rnn_layer=4, num_hidden_units=[256, 256, 256,256], tensorboard_directory='graphs/svsrnn', clear_tensorboard=True):
         super(SVSRNN, self).__init__()
 
         assert len(num_hidden_units) == num_rnn_layer
