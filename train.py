@@ -45,7 +45,7 @@ def train(random_seed = 0):
     num_rnn_layer = 4
     num_hidden_units = [256, 256, 256, 256]
     batch_size = 32
-    sample_frames = 128  # Increased for better context
+    sample_frames = 128  
     iterations = 5000
     tensorboard_directory = './graphs/svsrnn'
     log_directory = './log'
@@ -91,8 +91,6 @@ def train(random_seed = 0):
 
     print("Starting training...")
     best_valid_loss = float('inf')
-    patience = 10  # Early stopping patience
-    patience_counter = 0
 
     # Start training
     for i in range(iterations):
@@ -139,17 +137,10 @@ def train(random_seed = 0):
             with open(os.path.join(log_directory, train_log_filename), 'a') as log_file:
                 log_file.write(f'{i},{train_loss},{validation_loss}\n')
 
-            # Early stopping check
+            # Save best model
             if validation_loss < best_valid_loss:
                 best_valid_loss = validation_loss
-                patience_counter = 0
-                # Save best model
                 model.save(directory=model_directory, filename=model_filename)
-            else:
-                patience_counter += 1
-                if patience_counter >= patience:
-                    print(f"Early stopping triggered after {i} iterations")
-                    break
 
         # Regular model checkpoint
         if i % 1000 == 0:

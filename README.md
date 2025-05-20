@@ -2,17 +2,17 @@
 
 ## Overview
 
-This project is a deep learning-based tool for singing voice separation. It uses a Recurrent Neural Network (RNN) to split a song into two components: the singing voice (vocals) and the background music (accompaniment). The model is trained and evaluated on the MIR-1K dataset and provides both a command-line and a Streamlit web interface for easy use.
+This project is a deep learning-based tool for singing voice separation. It uses a Recurrent Neural Network (RNN) to split a song into two components: the singing voice (vocals) and the background music (accompaniment). The model is trained and evaluated on the MIR-1K dataset and provides a command-line interface for easy use.
 
 ---
 
 ## Features
 
 - **Source Separation:** Separates vocals and accompaniment from stereo audio.
-- **Streamlit Web App:** Upload your own `.mp3` file and get separated audio instantly.
 - **Training:** Easily train the model on the MIR-1K dataset.
 - **SI-SNR Loss:** Uses Scale-Invariant Signal-to-Noise Ratio (SI-SNR) as the loss function for robust source separation.
 - **Visualization:** Training and validation loss curves are plotted for monitoring.
+- **Preprocessing:** Comprehensive audio preprocessing pipeline for optimal model performance.
 
 ---
 
@@ -39,7 +39,7 @@ This project is a deep learning-based tool for singing voice separation. It uses
 
 - **Loss:** SI-SNR (Scale-Invariant Signal-to-Noise Ratio)
 - **Optimizer:** Adam with gradient clipping
-- **Logging:** Both training and validation losses are logged and plotted
+- **Logging:** Both training and validation losses are logged and plotted using TensorBoard
 - **Checkpoints:** Best and periodic model weights are saved in the `model/` directory
 
 ---
@@ -53,44 +53,45 @@ pip install -r requirements.txt
 **requirements.txt:**
 ```
 streamlit
-librosa
-numpy
-tensorflow
+librosa>=0.8.0
+numpy>=1.19.2
+torch>=2.0.0
+torchaudio>=2.0.0
 soundfile
 mir_eval
+matplotlib>=3.3.2
+tensorboard>=2.4.0
 ```
 
 ---
 
 ## Usage
 
-### 1. **Training**
+### 1. **Preprocessing**
+Preprocess the MIR-1K dataset:
+```bash
+python preprocess.py
+```
+
+### 2. **Training**
 Train the model on the MIR-1K dataset:
 ```bash
 python train.py
 ```
 
-### 2. **Plotting Loss Curves**
+### 3. **Plotting Loss Curves**
 Plot both training and validation loss curves:
 ```bash
 python utils.py
 ```
 This will save the plot as `figures/train_validation_loss.png`.
 
-### 3. **Main Demo (Command Line)**
+### 4. **Main Demo (Command Line)**
 Separate sources from `.mp3` files in the `songs/` directory:
 ```bash
 python main.py
 ```
 Outputs will be saved in the `main-demo/` directory.
-
-### 4. **Streamlit Web App**
-Run the web interface:
-```bash
-streamlit run app.py
-```
-- Upload an `.mp3` file.
-- Download the separated vocals and background music.
 
 ---
 
@@ -99,11 +100,6 @@ streamlit run app.py
 **Training and Validation Loss Curves:**
 <p align="center">
     <img src="./figures/train_validation_loss.png" width="75%">
-</p>
-
-**Streamlit App:**
-<p align="center">
-    <img src="./figures/app_1.png" width="75%">
 </p>
 
 **Separated Audio Example:**
@@ -116,18 +112,22 @@ streamlit run app.py
 ## Project Structure
 
 ```
-AS_V1.2/
+Audio_Seperator_Pytorch/
 │
 ├── MIR-1K/                # Dataset root
 │   └── Wavfile/           # Main audio files
 ├── main-demo/             # Outputs from main demo
 ├── model/                 # Saved model weights
-├── figures/               # Training/validation loss plots, app screenshots
-├── train.py               # Training script
-├── main.py                # Main demo script
-├── app.py                 # Streamlit web app
-├── utils.py               # Plotting utilities
-├── requirements.txt
+├── figures/               # Training/validation loss plots
+├── graphs/               # TensorBoard logs and visualizations
+├── songs/                # Input songs for separation
+├── log/                  # Training logs
+├── preprocess.py         # Dataset preprocessing script
+├── train.py              # Training script
+├── main.py               # Main demo script
+├── model.py              # Model architecture definition
+├── utils.py              # Utility functions and plotting
+├── requirements.txt      # Project dependencies
 └── README.md
 ```
 
@@ -138,13 +138,16 @@ AS_V1.2/
 - Evaluate against other models (e.g., U-Net)
 - Train on a larger dataset and/or with more layers
 - Improve separation quality and robustness
+- Add support for more audio formats
+- Implement real-time processing capabilities
+- Add a web interface for easier usage
 
 ---
 
 ## Acknowledgements
 
 - **Dataset:** [MIR-1K](https://sites.google.com/site/unvoicedsoundseparation/mir-1k)
-- **Libraries:** TensorFlow, librosa, Streamlit, mir_eval
+- **Libraries:** PyTorch, librosa, mir_eval
 
 ---
 

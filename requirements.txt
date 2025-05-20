@@ -3,7 +3,6 @@ librosa>=0.8.0
 numpy>=1.19.2
 tensorflow
 soundfile
-mir_eval
 torch>=2.0.0
 torchaudio>=2.0.0
 matplotlib>=3.3.2

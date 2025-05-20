@@ -183,11 +183,7 @@ def specs_to_wavs_istft_batch(magnitudes, phases, hop_length):
     return wavs
 
 
-def specs_to_wavs_griffin_lim_batch():
 
-    # Recover an audio signal given only the magnitude of its Short-Time Fourier Transform (STFT)
-
-    return
 
 
 
